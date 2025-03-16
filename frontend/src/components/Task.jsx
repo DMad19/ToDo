@@ -1,17 +1,24 @@
 import React, { useState } from 'react'
-
-function Task({title,description,deadline,subtasks}) {
+import { UseFormVisibilityContext, UseTaskContext } from '../context'
+function Task({id,title,description,deadline,subtasks}) {
+  const {putTaskToEdit} = UseTaskContext()
   const[moreDetailsRequired,setmoreDetailsRequired] = useState(false)
-
+  const {toggleInputForm} = UseFormVisibilityContext()
+  
   function toggleMoreDetails(){
     setmoreDetailsRequired(prev=>!prev)
+  }
+
+  function handleEdit(){
+    putTaskToEdit({id,title,description,deadline,subtasks})
+    toggleInputForm()
   }
   return (
     <div>
       <div className='flex flex-row gap-1'>
         <button onClick={toggleMoreDetails}>{moreDetailsRequired?"🔽":"▶️"}</button>
         <h3>{title}</h3>
-        <button>edit</button>
+        <button onClick={handleEdit}>edit</button>
         <button>delete</button>
       </div>
       <div className={moreDetailsRequired?"":"invisible"}>        

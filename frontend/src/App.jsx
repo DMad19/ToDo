@@ -6,13 +6,15 @@ import {FormVisibilityContextProvider, TasksContextProvider} from './context/ind
 import {v4 as uuidv4} from "uuid"
 
 function App() {
+  
   const [formVisible,setFormVisible] = useState(false)
+
   function toggleInputForm(){
     setFormVisible(prev=>!prev)
   }
   
   const [tasks,setTasks] = useState([])
-
+  const [taskToEdit,setTaskToEdit] = useState(null)
   function createTask(task){
     setTasks(prev=>[...prev,{id:uuidv4(),...task}])
   }
@@ -22,22 +24,30 @@ function App() {
   },[tasks])
 
   function updateTask(updatedtask){
-    setTasks(prev=>prev.map(task=>task.id==updatedtask.id?updatedtask:task))
+    console.log("here")
+    setTasks(prev=>prev.map(task=>task.id===updatedtask.id?updatedtask:task))
   }
 
   function deleteTask(id){
-    setTasks(prev=>prev.fliter(task=>task.id!=id))
+    setTasks(prev=>prev.filter(task=>task.id!=id))
+  }
+
+  function putTaskToEdit(task){
+    setTaskToEdit(task)
   }
 
   const taskContextValue = useMemo(()=>({
     tasks,
     createTask,
     updateTask,
-    deleteTask
-  }),[tasks])
+    deleteTask,
+    taskToEdit,
+    putTaskToEdit
+  }),[tasks,taskToEdit])
+
   return (
     <TasksContextProvider value={taskContextValue}>
-      <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm}}>
+      <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm,taskToEdit,putTaskToEdit}}>
         <Inputform/>
         <Tasklist/>
         <NewTaskBtn/>

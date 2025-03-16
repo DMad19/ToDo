@@ -5,6 +5,8 @@ const tasksContext = createContext({
 	createTask: () => {},
 	updateTask: () => {},
 	deleteTask: () => {},
+	taskToEdit: null,
+	putTaskToEdit: () => {},
 });
 
 export const TasksContextProvider = tasksContext.Provider;

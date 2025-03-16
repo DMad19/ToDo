@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UseFormVisibilityContext, UseTaskContext } from '../context'
 
 function Inputform() {
-    const {createTask} = UseTaskContext()
+    const {createTask,taskToEdit,updateTask,putTaskToEdit} = UseTaskContext()
     const {isFormVisible,toggleInputForm} = UseFormVisibilityContext()
     const [title,setTitle] = useState("")
     const [description,setDescription] = useState("")
     const [deadline,setDeadline] = useState("")
     const [subtaskData,setSubTaskData] = useState("")
     const [subtasks,setSubTasks] = useState([])
+
+    useEffect(()=>{
+        if(taskToEdit){
+            setTitle(taskToEdit.title || "")
+            setDescription(taskToEdit.description || "")
+            setDeadline(taskToEdit.deadline || "")
+            setSubTasks(taskToEdit.subtasks || [])
+        }
+    },[taskToEdit])
 
     function addSubTask(){
         if(subtaskData)
@@ -27,7 +36,12 @@ function Inputform() {
     function handleSubmit(e){
         e.preventDefault()
         // call the create task api
-        createTask({title,description,deadline,subtasks})
+        if(!taskToEdit){
+            createTask({title,description,deadline,subtasks})
+        }else{
+            updateTask({id:taskToEdit.id,title,description,deadline,subtasks})
+            putTaskToEdit(null)
+        }
         makeFormEmpty()
         toggleInputForm()
     }

@@ -10,6 +10,7 @@ function Tasklist() {
           tasks.map(task=>(
             <Task
               key={task.id}
+              id={task.id}
               title={task.title} 
               description={task.description}
               deadline= {task.deadline}
