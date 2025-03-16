@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { UseFormVisibilityContext } from '../context'
+import { UseFormVisibilityContext, UseTaskContext } from '../context'
 
 function Inputform() {
+    const {createTask} = UseTaskContext()
     const {isFormVisible,toggleInputForm} = UseFormVisibilityContext()
     const [title,setTitle] = useState("")
     const [description,setDescription] = useState("")
@@ -15,9 +16,19 @@ function Inputform() {
         setSubTaskData("")
     }
 
+    function makeFormEmpty(){
+        setTitle("")
+        setDescription("")
+        setDeadline("")
+        setSubTaskData("")
+        setSubTasks([])
+    }
+
     function handleSubmit(e){
         e.preventDefault()
         // call the create task api
+        createTask({title,description,deadline,subtasks})
+        makeFormEmpty()
         toggleInputForm()
     }
 

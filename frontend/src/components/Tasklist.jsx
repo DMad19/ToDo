@@ -1,21 +1,22 @@
 import React from 'react'
 import Task from './Task'
+import { UseTaskContext } from '../context'
 
 function Tasklist() {
+  const {tasks} = UseTaskContext()
   return (
     <div>
-        <Task 
-          title="task 1" 
-          description="write the code to make the drop down work for each task"
-          deadline="16/03/2025"
-          subtasks= {['a','b','c']}
-        />
-        <Task 
-          title="task 2" 
-          description="write the code to make the drop down work for each task"
-          deadline="16/03/2025"
-          subtasks= {['a','b','c']}
-        />
+        {
+          tasks.map(task=>(
+            <Task
+              key={task.id}
+              title={task.title} 
+              description={task.description}
+              deadline= {task.deadline}
+              subtasks= {task.subtasks}
+            />
+          ))
+        }
     </div>
   )
 }

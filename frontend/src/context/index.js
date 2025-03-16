@@ -3,4 +3,11 @@ import {
 	FormVisibilityContextProvider,
 } from "./UseFormVisibleContext";
 
-export { UseFormVisibilityContext, FormVisibilityContextProvider };
+import { UseTaskContext, TasksContextProvider } from "./UseTasksContext";
+
+export {
+	UseFormVisibilityContext,
+	FormVisibilityContextProvider,
+	UseTaskContext,
+	TasksContextProvider,
+};
