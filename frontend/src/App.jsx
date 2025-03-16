@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import './App.css'
 import { NewTaskBtn, Tasklist } from './components/index'
 import {Inputform} from './components/index' 
@@ -19,12 +19,7 @@ function App() {
     setTasks(prev=>[...prev,{id:uuidv4(),...task}])
   }
 
-  useEffect(()=>{
-    console.log(tasks)
-  },[tasks])
-
   function updateTask(updatedtask){
-    console.log("here")
     setTasks(prev=>prev.map(task=>task.id===updatedtask.id?updatedtask:task))
   }
 
@@ -47,7 +42,7 @@ function App() {
 
   return (
     <TasksContextProvider value={taskContextValue}>
-      <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm,taskToEdit,putTaskToEdit}}>
+      <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm}}>
         <Inputform/>
         <Tasklist/>
         <NewTaskBtn/>

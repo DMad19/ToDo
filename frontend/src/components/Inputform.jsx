@@ -7,7 +7,7 @@ function Inputform() {
     const [title,setTitle] = useState("")
     const [description,setDescription] = useState("")
     const [deadline,setDeadline] = useState("")
-    const [subtaskData,setSubTaskData] = useState("")
+    const [subtaskData,setSubTaskData] = useState({})
     const [subtasks,setSubTasks] = useState([])
 
     useEffect(()=>{
@@ -22,7 +22,7 @@ function Inputform() {
     function addSubTask(){
         if(subtaskData)
         setSubTasks(prev=>[subtaskData,...prev])
-        setSubTaskData("")
+        setSubTaskData({})
     }
 
     function makeFormEmpty(){
@@ -44,6 +44,10 @@ function Inputform() {
         }
         makeFormEmpty()
         toggleInputForm()
+    }
+
+    function handleClick(index){
+        setSubTasks(subtasks.map((elem,i)=>index==i?{...elem,completed:!elem.completed}:elem))
     }
 
   return (
@@ -77,14 +81,14 @@ function Inputform() {
                 name="subtask" 
                 id="subtask" 
                 placeholder='subtask' 
-                value={subtaskData} 
-                onChange={(e)=>{setSubTaskData(e.target.value)}}
+                value={subtaskData.value || ""} 
+                onChange={(e)=>{setSubTaskData({value:e.target.value,completed:false})}}
             />
             <button onClick={()=>addSubTask()}>➕</button>
         </div>
         {
             subtasks.map((subtask,index)=>(
-                <div key={index}>{subtask}</div>
+                <div key={index} onClick={()=>handleClick(index)} className={subtask.completed?"line-through":""}>{subtask.value}</div>
             ))
         }
         <button type='submit' onClick={handleSubmit}>save</button>
