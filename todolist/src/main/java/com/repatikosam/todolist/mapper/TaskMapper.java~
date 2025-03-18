@@ -1,0 +1,32 @@
+package com.repatikosam.todolist.mapper;
+
+import com.repatikosam.todolist.dto.TaskDto;
+import com.repatikosam.todolist.entity.SubTask;
+import com.repatikosam.todolist.entity.Task;
+
+public class TaskMapper {
+
+    public static TaskDto mapToTaskDto(Task task, TaskDto taskDto) {
+       // TaskDto.setTaskId(Task.getTaskId());
+        taskDto.setTitle(task.getTitle());
+        taskDto.setDescription(task.getDescription());
+        taskDto.setDeadline(task.getDeadline());
+        taskDto.setStatus(task.getStatus());
+        taskDto.setSubTasks(SubTaskMapper.mapToSubTaskDtos(task.getSubTasks()));
+        return taskDto;
+    }
+
+    public static Task mapToTask(TaskDto taskDto, Task task) {
+      //  Task.setTaskId(TaskDto.getTaskId());
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
+        task.setDeadline(taskDto.getDeadline());
+        task.setStatus(taskDto.getStatus());
+        if(taskDto.getSubTasks() != null) {
+            System.out.println("subTasks:    "+SubTaskMapper.mapToSubTasks(taskDto));
+            task.setSubTasks(SubTaskMapper.mapToSubTasks(taskDto));
+        }
+        return task;
+    }
+
+}
