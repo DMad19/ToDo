@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { UseFormVisibilityContext, UseTaskContext } from '../context'
+import { transformSubtasksToBackendFormat } from '../utils/transform'
 
 function Inputform() {
     const {createTask,taskToEdit,updateTask,putTaskToEdit} = UseTaskContext()
@@ -37,7 +38,10 @@ function Inputform() {
         e.preventDefault()
         // call the create task api
         if(!taskToEdit){
-            createTask({title,description,deadline,subtasks})
+            let subtasksReqFormat = transformSubtasksToBackendFormat(subtasks)
+            let taskReqFormat = {title,description,deadline,subTasks:subtasksReqFormat,status:"NOT_COMPLETED"}
+            console.log("Request Structure formed:"+JSON.stringify(taskReqFormat));
+            createTask(taskReqFormat)
         }else{
             updateTask({id:taskToEdit.id,title,description,deadline,subtasks})
             putTaskToEdit(null)
@@ -47,48 +51,54 @@ function Inputform() {
     }
 
     function handleClick(index){
-        setSubTasks(subtasks.map((elem,i)=>index==i?{...elem,completed:!elem.completed}:elem))
+        setSubTasks(subtasks.map((elem,i)=>index==i?{...elem,status:!elem.status}:elem))
     }
 
   return (
-    <div className={isFormVisible?"":"invisible"}>
-        <label htmlFor="title">title</label><br />
-        <input 
-            type="text" 
-            name="title" 
-            id="title" 
-            value={title} 
-            onChange={(e)=>setTitle(e.target.value)}
-        /><br />
-        <label htmlFor="description">description</label><br />
-        <textarea 
-            name="description" 
-            id="description" 
-            value={description} 
-            onChange={(e)=>setDescription(e.target.value)}>
-        </textarea><br />
-        <label htmlFor="deadline">Select Deadline</label><br />
-        <input 
-            type="date" 
-            name="deadline" 
-            id="deadline" 
-            value={deadline} 
-            onChange={(e)=>setDeadline(e.target.value)}
-        />
+    <div className={`h-screen flex flex-col justify-center align-center ${isFormVisible?"":"invisible"}`}>
+        <div>
+            <label htmlFor="title">title</label><br />
+            <input 
+                type="text" 
+                name="title" 
+                id="title" 
+                value={title} 
+                onChange={(e)=>setTitle(e.target.value)}
+            />
+        </div>
+        <div>
+            <label htmlFor="description">description</label><br />
+            <textarea 
+                name="description" 
+                id="description" 
+                value={description} 
+                onChange={(e)=>setDescription(e.target.value)}>
+            </textarea>
+        </div>
+        <div>            
+            <label htmlFor="deadline">Select Deadline</label><br />
+            <input 
+                type="date" 
+                name="deadline" 
+                id="deadline" 
+                value={deadline} 
+                onChange={(e)=>setDeadline(e.target.value)}
+            />
+        </div>
         <div>
             <input 
                 type="text" 
                 name="subtask" 
                 id="subtask" 
                 placeholder='subtask' 
-                value={subtaskData.value || ""} 
-                onChange={(e)=>{setSubTaskData({value:e.target.value,completed:false})}}
+                value={subtaskData.subtaskTitle || ""} 
+                onChange={(e)=>{setSubTaskData({subtaskTitle:e.target.value,status:false})}}
             />
-            <button onClick={()=>addSubTask()}>➕</button>
+            <button onClick={()=>addSubTask()} className='border-amber-600 border-2 rounded-xl p-0.5'>➕</button>
         </div>
         {
             subtasks.map((subtask,index)=>(
-                <div key={index} onClick={()=>handleClick(index)} className={subtask.completed?"line-through":""}>{subtask.value}</div>
+                <div key={index} onClick={()=>handleClick(index)} className={subtask.status?"line-through":""}>{subtask.subtaskTitle}</div>
             ))
         }
         <button type='submit' onClick={handleSubmit}>save</button>

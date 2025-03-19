@@ -7,7 +7,7 @@ function Tasklist() {
   return (
     <div>
         {
-          tasks.map(task=>(
+          tasks && tasks.map(task=>(
             <Task
               key={task.id}
               id={task.id}

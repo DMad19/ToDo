@@ -3,3 +3,8 @@
 .invisible{
     display: none;
 }
+
+body{
+    margin: 10%;
+    background-color: gainsboro;
+}

@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { NewTaskBtn, Tasklist } from './components/index'
-import {Inputform} from './components/index' 
+import { NewTaskBtn, Tasklist, Header, Inputform } from './components/index'
 import {FormVisibilityContextProvider, TasksContextProvider} from './context/index'
-import {v4 as uuidv4} from "uuid"
+import UseGetTasks from './hooks/useGetTasks'
+import UseCreateTask from './hooks/useCreateTask'
 
 function App() {
   
@@ -15,8 +15,20 @@ function App() {
   
   const [tasks,setTasks] = useState([])
   const [taskToEdit,setTaskToEdit] = useState(null)
+
+  useEffect(()=>{
+    async function fetchTasks(){
+      setTasks(await UseGetTasks())
+    }
+    fetchTasks()
+  },[])
+
   function createTask(task){
-    setTasks(prev=>[...prev,{id:uuidv4(),...task}])
+    async function createTask(task) {
+      await UseCreateTask(task)
+      setTasks(await UseGetTasks())
+    }
+    createTask(task)
   }
 
   function updateTask(updatedtask){
@@ -43,6 +55,7 @@ function App() {
   return (
     <TasksContextProvider value={taskContextValue}>
       <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm}}>
+        <Header/>
         <Inputform/>
         <Tasklist/>
         <NewTaskBtn/>

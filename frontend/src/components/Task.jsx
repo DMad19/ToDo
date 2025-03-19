@@ -31,7 +31,7 @@ function Task({id,title,description,deadline,subtasks}) {
         <h5>{deadline}</h5>
         {
           subtasks && subtasks.map((subtask,index)=>(
-            <div key={index} className={subtask.completed?"line-through":""}>{subtask.value}</div>
+            <div key={index} className={subtask.status?"line-through":""}>{subtask.subtaskTitle}</div>
           ))
         }
       </div>
