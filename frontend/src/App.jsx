@@ -4,6 +4,8 @@ import { NewTaskBtn, Tasklist, Header, Inputform } from './components/index'
 import {FormVisibilityContextProvider, TasksContextProvider} from './context/index'
 import UseGetTasks from './hooks/useGetTasks'
 import UseCreateTask from './hooks/useCreateTask'
+import UseModifyTask from './hooks/useModifyTask'
+import UseDeleteTask from './hooks/useDeleteTask'
 
 function App() {
   
@@ -23,20 +25,19 @@ function App() {
     fetchTasks()
   },[])
 
-  function createTask(task){
-    async function createTask(task) {
+  async function createTask(task){
       await UseCreateTask(task)
       setTasks(await UseGetTasks())
-    }
-    createTask(task)
   }
 
-  function updateTask(updatedtask){
-    setTasks(prev=>prev.map(task=>task.id===updatedtask.id?updatedtask:task))
+  async function updateTask(updatedtask){
+    await UseModifyTask(updatedtask)
+    setTasks(await UseGetTasks())
   }
 
-  function deleteTask(id){
-    setTasks(prev=>prev.filter(task=>task.id!=id))
+  async function deleteTask(id){
+    await UseDeleteTask(id)
+    setTasks(await UseGetTasks())
   }
 
   function putTaskToEdit(task){

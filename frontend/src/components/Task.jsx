@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { UseFormVisibilityContext, UseTaskContext } from '../context'
-function Task({id,title,description,deadline,subtasks}) {
+function Task({taskId,title,description,deadline,subTasks}) {
   const {putTaskToEdit,deleteTask} = UseTaskContext()
   const[moreDetailsRequired,setmoreDetailsRequired] = useState(false)
   const {toggleInputForm} = UseFormVisibilityContext()
@@ -10,12 +10,12 @@ function Task({id,title,description,deadline,subtasks}) {
   }
 
   function handleEdit(){
-    putTaskToEdit({id,title,description,deadline,subtasks})
+    putTaskToEdit({taskId,title,description,deadline,subTasks})
     toggleInputForm()
   }
 
   function handleDelete(){
-    deleteTask(id)
+    deleteTask(taskId)
   }
 
   return (
@@ -30,8 +30,8 @@ function Task({id,title,description,deadline,subtasks}) {
         <h5>{description}</h5>
         <h5>{deadline}</h5>
         {
-          subtasks && subtasks.map((subtask,index)=>(
-            <div key={index} className={subtask.status?"line-through":""}>{subtask.subtaskTitle}</div>
+          subTasks && subTasks.map((subtask,index)=>(
+            <div key={index} className={subtask.status=="COMPLETED"?"line-through":""}>{subtask.subtaskTitle}</div>
           ))
         }
       </div>

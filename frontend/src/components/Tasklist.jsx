@@ -9,12 +9,12 @@ function Tasklist() {
         {
           tasks && tasks.map(task=>(
             <Task
-              key={task.id}
-              id={task.id}
+              key={task.taskId}
+              taskId={task.taskId}
               title={task.title} 
               description={task.description}
               deadline= {task.deadline}
-              subtasks= {task.subtasks}
+              subTasks= {task.subTasks}
             />
           ))
         }

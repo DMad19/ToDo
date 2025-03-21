@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { UseFormVisibilityContext, UseTaskContext } from '../context'
-import { transformSubtasksToBackendFormat } from '../utils/transform'
 
 function Inputform() {
     const {createTask,taskToEdit,updateTask,putTaskToEdit} = UseTaskContext()
@@ -9,14 +8,14 @@ function Inputform() {
     const [description,setDescription] = useState("")
     const [deadline,setDeadline] = useState("")
     const [subtaskData,setSubTaskData] = useState({})
-    const [subtasks,setSubTasks] = useState([])
+    const [subTasks,setSubTasks] = useState([])
 
     useEffect(()=>{
         if(taskToEdit){
             setTitle(taskToEdit.title || "")
             setDescription(taskToEdit.description || "")
             setDeadline(taskToEdit.deadline || "")
-            setSubTasks(taskToEdit.subtasks || [])
+            setSubTasks(taskToEdit.subTasks || [])
         }
     },[taskToEdit])
 
@@ -38,12 +37,12 @@ function Inputform() {
         e.preventDefault()
         // call the create task api
         if(!taskToEdit){
-            let subtasksReqFormat = transformSubtasksToBackendFormat(subtasks)
-            let taskReqFormat = {title,description,deadline,subTasks:subtasksReqFormat,status:"NOT_COMPLETED"}
+            // let subtasksReqFormat = transformSubtasksToBackendFormat(subTasks)
+            let taskReqFormat = {title,description,deadline,subTasks,status:"NOT_COMPLETED"}
             console.log("Request Structure formed:"+JSON.stringify(taskReqFormat));
             createTask(taskReqFormat)
         }else{
-            updateTask({id:taskToEdit.id,title,description,deadline,subtasks})
+            updateTask({taskId:taskToEdit.taskId,title,description,deadline,subTasks})
             putTaskToEdit(null)
         }
         makeFormEmpty()
@@ -51,7 +50,7 @@ function Inputform() {
     }
 
     function handleClick(index){
-        setSubTasks(subtasks.map((elem,i)=>index==i?{...elem,status:!elem.status}:elem))
+        setSubTasks(subTasks.map((elem,i)=>index==i?{...elem,status:elem.status=='COMPLETED'?'NOT_COMPLETED':'COMPLETED'}:elem))
     }
 
   return (
@@ -92,13 +91,13 @@ function Inputform() {
                 id="subtask" 
                 placeholder='subtask' 
                 value={subtaskData.subtaskTitle || ""} 
-                onChange={(e)=>{setSubTaskData({subtaskTitle:e.target.value,status:false})}}
+                onChange={(e)=>{setSubTaskData({subtaskTitle:e.target.value,status:'NOT_COMPLETED'})}}
             />
             <button onClick={()=>addSubTask()} className='border-amber-600 border-2 rounded-xl p-0.5'>➕</button>
         </div>
         {
-            subtasks.map((subtask,index)=>(
-                <div key={index} onClick={()=>handleClick(index)} className={subtask.status?"line-through":""}>{subtask.subtaskTitle}</div>
+            subTasks.map((subtask,index)=>(
+                <div key={index} onClick={()=>handleClick(index)} className={subtask.status=='COMPLETED'?"line-through":""}>{subtask.subtaskTitle}</div>
             ))
         }
         <button type='submit' onClick={handleSubmit}>save</button>
