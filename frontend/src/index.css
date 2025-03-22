@@ -1,10 +1,27 @@
 @import "tailwindcss";
 
+:root{
+    --powerful-color :#FF7F00;
+    --secondary-color :#000000;
+    --primary-color: #D3D3D3;
+    --primary-color-light: #E8E8E8; 
+    --primary-color-dark: #B0B0B0;
+}
+
+.dark{
+    --powerful-color : #D3D3D3;
+    --secondary-color :#FF7F00;
+    --primary-color: #000000;
+    --primary-color-light: #1A1A1A; 
+    --primary-color-dark: #000000; 
+}
+
 .invisible{
     display: none;
 }
 
 body{
-    margin: 10%;
-    background-color: gainsboro;
+    margin: 8px;
+    background-color: var(--primary-color);
 }
+  

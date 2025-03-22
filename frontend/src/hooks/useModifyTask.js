@@ -4,7 +4,7 @@ async function UseModifyTask(task) {
 		console.log(task);
 		const response = await axios.put(
 			"http://localhost:8080/api/tasks/task",
-			{ ...task, status: "NOT_COMPLETED" },
+			task,
 			{
 				headers: {
 					"Content-Type": "application/json",

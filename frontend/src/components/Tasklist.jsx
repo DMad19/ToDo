@@ -5,7 +5,7 @@ import { UseTaskContext } from '../context'
 function Tasklist() {
   const {tasks} = UseTaskContext()
   return (
-    <div>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4'>
         {
           tasks && tasks.map(task=>(
             <Task
@@ -13,6 +13,7 @@ function Tasklist() {
               taskId={task.taskId}
               title={task.title} 
               description={task.description}
+              status={task.status}
               deadline= {task.deadline}
               subTasks= {task.subTasks}
             />

@@ -4,7 +4,12 @@ import { UseFormVisibilityContext } from '../context'
 function NewTaskBtn() {
     const {toggleInputForm} = UseFormVisibilityContext()
   return (
-    <button onClick={toggleInputForm} className='fixed bottom-1/12 right-1/12 border-amber-600 border-4 rounded-xl p-1'>➕</button>
+    <button 
+      onClick={toggleInputForm} 
+      className="fixed bottom-8 right-8 p-3 bg-[var(--powerful-color)] text-[var(--primary-color)] rounded-full shadow-lg hover:bg-[var(--secondary-color)] hover:text-[var(--powerful-color)] transition-all duration-300 flex items-center justify-center w-14 h-14 animate-pulse"
+    >
+      <span className="material-icons text-3xl">add</span>
+    </button>
   )
 }
 
