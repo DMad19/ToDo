@@ -36,6 +36,7 @@ public class SubTaskMapper {
         List<SubTaskDto> subTaskDtos = new ArrayList<>();
         for (SubTask subTask : subTasks) {
             SubTaskDto subTaskDto = new SubTaskDto();
+            subTaskDto.setSubtaskId(subTask.getSubTaskId());
             subTaskDto.setSubtaskTitle(subTask.getSubTaskTitle());
             subTaskDto.setStatus(subTask.getStatus());
             subTaskDtos.add(subTaskDto);
