@@ -1,5 +1,6 @@
 package com.repatikosam.todolist.service.impl;
 
+import com.repatikosam.todolist.constants.TodolistConstants;
 import com.repatikosam.todolist.dto.TaskDto;
 import com.repatikosam.todolist.entity.SubTask;
 import com.repatikosam.todolist.entity.Task;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +35,11 @@ private SubTaskRepository subTaskRepository;
     public void addTask(TaskDto taskDto) {
 
         Task task = TaskMapper.mapToTask(taskDto, new Task());
-        System.out.println("task:          "+task);
-        System.out.println("Created At: " + task.getCreatedAt());
+//        System.out.println("task:          "+task);
+//        System.out.println("Created At: " + task.getCreatedAt());
+        if(task.getDeadline() == null){
+            task.setDeadline(TodolistConstants.DEADLINE);
+        }
         task.setSubTasks(null);
         Task savedTask = taskRepository.save(task);
         List<SubTask> subTasks = SubTaskMapper.mapToSubTasks(taskDto);
@@ -63,7 +68,7 @@ private SubTaskRepository subTaskRepository;
      boolean isUpdated=false;
 
      Task task = TaskMapper.mapToTask(taskDto, new Task());
-System.out.println("task:          "+task+"   taskDto:   "+taskDto);
+     System.out.println("task:          "+task+"   taskDto:   "+taskDto);
      if(taskRepository.existsById(task.getTaskId())){
          task.setSubTasks(null);
          Task savedTask = taskRepository.save(task);
@@ -96,6 +101,7 @@ System.out.println("task:          "+task+"   taskDto:   "+taskDto);
         for (Task task : tasks) {
             taskDtos.add(TaskMapper.mapToTaskDto(task, new TaskDto()));
         }
+       Collections.sort(taskDtos, new TaskDto.TaskDeadlineComparator());
         return taskDtos;
     }
 }

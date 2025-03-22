@@ -21,4 +21,11 @@ public class TaskDto    {
 
     private List<SubTaskDto> subTasks;
 
+    // comparator to sort tasks by deadline
+    public static class TaskDeadlineComparator implements java.util.Comparator<TaskDto> {
+        public int compare(TaskDto t1, TaskDto t2) {
+            return t1.getDeadline().compareTo(t2.getDeadline());
+        }
+    }
+
 }
