@@ -20,10 +20,13 @@ function Inputform() {
         }
     },[taskToEdit])
 
-    function addSubTask(){
-        if(subtaskData)
-        setSubTasks(prev=>[subtaskData,...prev])
-        setSubTaskData({})
+    function addSubTask(e){
+        e.preventDefault()
+        if(subtaskData?.subtaskTitle?.trim().length>0){
+            console.log(subtaskData)
+            setSubTasks(prev=>[subtaskData,...prev])
+            setSubTaskData({})
+        }
     }
 
     function makeFormEmpty(){
@@ -122,8 +125,11 @@ function Inputform() {
                     type="checkbox" 
                     name="status" 
                     id="status" 
-                    value={status} 
-                    onClick={handleStatusClick}
+                    value={status=='COMPLETED'} 
+                    onClick={(e)=>handleStatusClick(e)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") e.preventDefault(); // Prevent form submission
+                    }}                  
                     className="mr-2 accent-[var(--powerful-color)]"
                 />
                 <label 
@@ -144,7 +150,7 @@ function Inputform() {
                     className='w-full p-2 border border-[var(--secondary-color)] rounded focus:outline-none focus:border-[var(--powerful-color)]'
                 />
                 <button 
-                    onClick={()=>addSubTask()} 
+                    onClick={(e)=>addSubTask(e)} 
                     className="p-2 bg-[var(--secondary-color)] text-[var(--primary-color)] rounded hover:bg-[var(--powerful-color)] hover:text-[var(--secondary-color)] transition-colors duration-300 text-2xl font-bold"
                 >
                     +
