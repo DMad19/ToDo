@@ -17,7 +17,7 @@ function Inputform() {
             setDescription(taskToEdit.description || "")
             setDeadline(taskToEdit.deadline || "")
             setSubTasks(taskToEdit.subTasks || [])
-            setStatus(taskToEdit.status ||"NOT_COMPLETED")
+            setStatus(taskToEdit.status || "NOT_COMPLETED")
         }
     },[taskToEdit])
 
@@ -127,8 +127,8 @@ function Inputform() {
                     type="checkbox" 
                     name="status" 
                     id="status" 
-                    value={status=='COMPLETED'} 
-                    onClick={(e)=>handleStatusClick(e)}
+                    checked={status=='COMPLETED'} 
+                    onChange={(e)=>handleStatusClick(e)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") e.preventDefault(); // Prevent form submission
                     }}                  
