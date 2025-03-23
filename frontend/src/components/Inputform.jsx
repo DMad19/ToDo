@@ -17,6 +17,7 @@ function Inputform() {
             setDescription(taskToEdit.description || "")
             setDeadline(taskToEdit.deadline || "")
             setSubTasks(taskToEdit.subTasks || [])
+            setStatus(taskToEdit.status ||"NOT_COMPLETED")
         }
     },[taskToEdit])
 
@@ -35,6 +36,7 @@ function Inputform() {
         setDeadline("")
         setSubTaskData("")
         setSubTasks([])
+        setStatus("NOT_COMPLETED")
     }
 
     function handleSubmit(e){
