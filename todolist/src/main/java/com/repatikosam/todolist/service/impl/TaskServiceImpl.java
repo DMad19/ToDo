@@ -23,10 +23,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TaskServiceImpl implements ITaskService {
 
-private TaskRepository taskRepository;
-private SubTaskRepository subTaskRepository;
+    private TaskRepository taskRepository;
+    private SubTaskRepository subTaskRepository;
 
- void TaskServiceImpl(TaskRepository taskRepository, SubTaskRepository subTaskRepository) {
+    void TaskServiceImpl(TaskRepository taskRepository, SubTaskRepository subTaskRepository) {
         this.taskRepository = taskRepository;
         this.subTaskRepository = subTaskRepository;
     }
@@ -35,11 +35,12 @@ private SubTaskRepository subTaskRepository;
     public void addTask(TaskDto taskDto) {
 
         Task task = TaskMapper.mapToTask(taskDto, new Task());
-//        System.out.println("task:          "+task);
-//        System.out.println("Created At: " + task.getCreatedAt());
-        if(task.getDeadline() == null){
+        // System.out.println("task: "+task);
+        // System.out.println("Created At: " + task.getCreatedAt());
+        if (task.getDeadline() == null || task.getDeadline().isEmpty()) {
             task.setDeadline(TodolistConstants.DEADLINE);
         }
+        System.out.println("Deadline....................................." + task.getDeadline());
         task.setSubTasks(null);
         Task savedTask = taskRepository.save(task);
         List<SubTask> subTasks = SubTaskMapper.mapToSubTasks(taskDto);
@@ -53,45 +54,45 @@ private SubTaskRepository subTaskRepository;
     @Override
     public boolean deleteTask(Integer taskId) {
 
-     boolean isDeleted = false;
+        boolean isDeleted = false;
         if (!taskRepository.existsById(taskId)) {
-            throw new TaskNotFoundException("Task not found with id ", "task_id", taskId+"");
+            throw new TaskNotFoundException("Task not found with id ", "task_id", taskId + "");
         }
         taskRepository.deleteById(taskId);
-        isDeleted=true;
+        isDeleted = true;
         return isDeleted;
     }
 
     @Override
     public boolean updateTask(TaskDto taskDto) {
 
-     boolean isUpdated=false;
+        boolean isUpdated = false;
 
-     Task task = TaskMapper.mapToTask(taskDto, new Task());
-     System.out.println("task:          "+task+"   taskDto:   "+taskDto);
-     if(taskRepository.existsById(task.getTaskId())){
-         task.setSubTasks(null);
-         Task savedTask = taskRepository.save(task);
-         List<SubTask> subTasks = SubTaskMapper.mapToSubTasks(taskDto);
-         for (SubTask subTask : subTasks) {
-             subTask.setTask(savedTask);
-         }
-         subTaskRepository.saveAll(subTasks);
-         System.out.println("Task saved with id " + savedTask.getTaskId());
-         isUpdated=true;
-     }
-     return isUpdated;
+        Task task = TaskMapper.mapToTask(taskDto, new Task());
+        System.out.println("task:          " + task + "   taskDto:   " + taskDto);
+        if (taskRepository.existsById(task.getTaskId())) {
+            task.setSubTasks(null);
+            Task savedTask = taskRepository.save(task);
+            List<SubTask> subTasks = SubTaskMapper.mapToSubTasks(taskDto);
+            for (SubTask subTask : subTasks) {
+                subTask.setTask(savedTask);
+            }
+            subTaskRepository.saveAll(subTasks);
+            System.out.println("Task saved with id " + savedTask.getTaskId());
+            isUpdated = true;
+        }
+        return isUpdated;
 
     }
 
     @Override
-    public TaskDto getTask(Integer  taskId) {
-     if (taskRepository.existsById(taskId)) {
-         System.out.println("Task found:   " + taskRepository.findById(taskId).get());
-         return TaskMapper.mapToTaskDto(taskRepository.findById(taskId).get(), new TaskDto());
-     }else{
-         throw  new TaskNotFoundException("Task not found with id ", "task_id", taskId+"");
-     }
+    public TaskDto getTask(Integer taskId) {
+        if (taskRepository.existsById(taskId)) {
+            System.out.println("Task found:   " + taskRepository.findById(taskId).get());
+            return TaskMapper.mapToTaskDto(taskRepository.findById(taskId).get(), new TaskDto());
+        } else {
+            throw new TaskNotFoundException("Task not found with id ", "task_id", taskId + "");
+        }
     }
 
     @Override
@@ -101,7 +102,7 @@ private SubTaskRepository subTaskRepository;
         for (Task task : tasks) {
             taskDtos.add(TaskMapper.mapToTaskDto(task, new TaskDto()));
         }
-       Collections.sort(taskDtos, new TaskDto.TaskDeadlineComparator());
+        Collections.sort(taskDtos, new TaskDto.TaskDeadlineComparator());
         return taskDtos;
     }
 }
