@@ -70,7 +70,7 @@ function Inputform() {
     }
   return (
     <form className={`fixed inset-0 z-50 flex flex-col justify-center items-center ${isFormVisible?"":"invisible"}`} onSubmit={(e)=>handleSubmit(e)}>
-        <div className='bg-white p-6 rounded-lg shadow-lg transform transition-transform duration-300 scale-95 hover:scale-100 w-full max-w-md md:max-w-lg lg:max-w-xl mx-4'>
+        <div className='bg-[var(--form-bg)] p-6 rounded-lg shadow-lg transform transition-transform duration-300 scale-95 hover:scale-100 w-full max-w-md md:max-w-lg lg:max-w-xl mx-4'>
             <div className='flex justify-end'>
                 <button 
                     onClick={(e)=>closeForm(e)}
