@@ -85,7 +85,7 @@ function Inputform() {
                     title
                 </label><br />
                 <input 
-                    className="w-full p-2 mt-1 border border-[var(--secondary-color)] rounded focus:outline-none focus:border-[var(--powerful-color)]"
+                    className="w-full p-2 mt-1 border border-[var(--form-text)] text-[var(--form-text)] rounded focus:outline-none focus:border-[var(--secondary-color)]"
                     required={isFormVisible}
                     type="text" 
                     name="title" 
@@ -99,7 +99,7 @@ function Inputform() {
                     className="text-[var(--secondary-color)] font-semibold"
                     htmlFor="description">description</label><br />
                 <textarea 
-                    className="w-full p-2 mt-1 border border-[var(--secondary-color)] rounded focus:outline-none focus:border-[var(--powerful-color)]"
+                    className="w-full p-2 mt-1 border border-[var(--form-text)] text-[var(--form-text)] rounded focus:outline-none focus:border-[var(--secondary-color)]"
                     name="description" 
                     id="description" 
                     value={description} 
@@ -119,7 +119,7 @@ function Inputform() {
                     id="deadline" 
                     value={deadline} 
                     onChange={(e)=>setDeadline(e.target.value)}
-                    className="w-full p-2 mt-1 border border-[var(--secondary-color)] rounded focus:outline-none focus:border-[var(--powerful-color)]"
+                    className="w-full p-2 mt-1 border border-[var(--form-text)] text-[var(--form-text)] rounded focus:outline-none focus:border-[var(--secondary-color)]"
                 />
             </div>
             <div className="mb-4 flex flex-row items-center">
@@ -130,7 +130,7 @@ function Inputform() {
                     checked={status=='COMPLETED'} 
                     onChange={(e)=>handleStatusClick(e)}
                     onKeyDown={(e) => {
-                        if (e.key === "Enter") e.preventDefault(); // Prevent form submission
+                        if (e.key === "Enter") e.preventDefault();
                     }}                  
                     className="mr-2 accent-[var(--powerful-color)]"
                 />
@@ -149,7 +149,7 @@ function Inputform() {
                     placeholder='subtask' 
                     value={subtaskData.subtaskTitle || ""} 
                     onChange={(e)=>{setSubTaskData({subtaskTitle:e.target.value,status:'NOT_COMPLETED'})}}
-                    className='w-full p-2 border border-[var(--secondary-color)] rounded focus:outline-none focus:border-[var(--powerful-color)]'
+                    className='w-full p-2 border border-[var(--form-text)] text-[var(--form-text)] rounded focus:outline-none focus:border-[var(--secondary-color)]'
                 />
                 <button 
                     onClick={(e)=>addSubTask(e)} 
