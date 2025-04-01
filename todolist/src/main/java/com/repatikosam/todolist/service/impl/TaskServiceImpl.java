@@ -40,7 +40,6 @@ public class TaskServiceImpl implements ITaskService {
         if (task.getDeadline() == null || task.getDeadline().isEmpty()) {
             task.setDeadline(TodolistConstants.DEADLINE);
         }
-        System.out.println("Deadline....................................." + task.getDeadline());
         task.setSubTasks(null);
         Task savedTask = taskRepository.save(task);
         List<SubTask> subTasks = SubTaskMapper.mapToSubTasks(taskDto);
