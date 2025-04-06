@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import { UseFormVisibilityContext, UseTaskContext } from '../context'
 function Task({taskId,title,description,deadline,status,subTasks}) {
