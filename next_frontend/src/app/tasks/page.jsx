@@ -54,7 +54,6 @@ function TasksPage() {
   return (
     <TasksContextProvider value={taskContextValue}>
       <FormVisibilityContextProvider value={{isFormVisible:formVisible,toggleInputForm}}>
-        <Header/>
         <Inputform/>
         <Tasklist/>
         <NewTaskBtn/>
