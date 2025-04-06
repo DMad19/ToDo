@@ -26,4 +26,9 @@ public class  Task extends BaseEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<SubTask> subTasks;
 
+
+    @ManyToOne
+    @ToString.Exclude
+    @JoinColumn(name = "user_id")
+    private User user;
 }

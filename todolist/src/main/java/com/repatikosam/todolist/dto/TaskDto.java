@@ -4,6 +4,7 @@ import com.repatikosam.todolist.entity.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
+import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class TaskDto    {
     private String title;
     private String description;
     private String deadline;
+    private Integer userId;
 
     @Enumerated(EnumType.STRING)
     private Status status;
